@@ -6,7 +6,7 @@ class HomeController:
     def index(self):
 
         result = engine.execute(
-            'SELECT p.CODCLI cod_cli FROM TEST_DD.PCCLIENT p'
+            'SELECT p.CODCLI as cod_cli FROM TEST_DD.PCCLIENT p'
         )
 
         for row in result:
