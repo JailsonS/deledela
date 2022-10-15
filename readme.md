@@ -2,7 +2,7 @@
 
 - cliente 21_7
 
-### Para Ubunto
+### Para Ubuntu
 
 - criar dir /opt/oracle/instantclient_x_x
 
