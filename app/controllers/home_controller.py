@@ -9,7 +9,8 @@ class HomeController:
             'SELECT p.CODCLI as cod_cli FROM TEST_DD.PCCLIENT p'
         )
 
-        for row in result:
-            print(row['cod_cli'])
+        listResult = list(result.fetchall())
+
+        print(listResult)
         
         return 'ok'
