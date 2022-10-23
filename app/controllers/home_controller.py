@@ -1,4 +1,5 @@
 
+from flask import render_template
 from ..database import engine
 
 class HomeController:
@@ -9,8 +10,10 @@ class HomeController:
             'SELECT p.CODCLI as cod_cli FROM TEST_DD.PCCLIENT p'
         )
 
-        listResult = list(result.fetchall())
+        # listResult = list(result.fetchall())
 
-        print(listResult)
-        
-        return 'ok'
+        # iterar sobre a lista de clientes devedores
+
+        # enviar mensagem via wpp
+
+        return render_template('home.html')
