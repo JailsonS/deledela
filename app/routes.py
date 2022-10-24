@@ -1,3 +1,3 @@
 from mvc_flask import Router
 
-Router.get("/", "home#index")
+Router.get("/login", "auth#index")
