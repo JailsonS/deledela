@@ -15,4 +15,4 @@ class HomeController:
 
         # enviar mensagem via wpp
 
-        return render_template('pages/login.html')
+        return render_template('auth/login.html')
