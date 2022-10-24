@@ -1,14 +1,16 @@
 
 from flask import render_template
-from ..database import engine
+
+from ..models.Cliente import Cliente
 
 class HomeController:
 
     def index(self):
-
-        result = engine.execute(
-            'SELECT p.CODCLI as cod_cli FROM TEST_DD.PCCLIENT p'
-        )
+        
+        cliente = Cliente
+        
+        lista_clientes_devedores = cliente.getClientesDevedores()
+    
 
         # listResult = list(result.fetchall())
 
