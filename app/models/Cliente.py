@@ -5,7 +5,6 @@ from datetime import date
 
 
 class Cliente:
-    
 
     def getClientesDevedores():
 
@@ -19,7 +18,9 @@ class Cliente:
             'FROM DELEEDELA.PCPREST p ' +
                 'INNER JOIN DELEEDELA.PCCLIENT pc ON p.CODCLI = pc.CODCLI ' + 
             'WHERE ' +
-            '(p.CODCOB = :codcob1 OR p.CODCOB = :codcob2 OR p.CODCOB = :codcob3 OR p.CODCOB = :codcob4 OR p.CODCOB = :codcob5) AND ' +
+                '(' +
+                    'p.CODCOB = :codcob1 OR p.CODCOB = :codcob2 OR p.CODCOB = :codcob3 OR p.CODCOB = :codcob4 OR p.CODCOB = :codcob5' +
+                ') AND ' +
             'p.VPAGO IS NULL AND ' + 
             'TO_DATE(p.DTVENC) < :current_date'
         )
