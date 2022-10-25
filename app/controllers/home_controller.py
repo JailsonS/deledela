@@ -5,7 +5,7 @@ from ..models.Cliente import Cliente
 
 class HomeController:
 
-    def index(self):
+    def index(self, view, request):
         
         cliente = Cliente
         

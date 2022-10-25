@@ -2,3 +2,7 @@ flask
 mvc_flask
 Flask-Session
 flask-sqlalchemy
+flask-login
+Flask-WTF
+Werkzeug
+email_validator

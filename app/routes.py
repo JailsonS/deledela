@@ -1,3 +1,4 @@
 from mvc_flask import Router
 
-Router.get("/login", "auth#index")
+Router.get("/login", "auth#login")
+Router.post("/login", "auth#do_login")
