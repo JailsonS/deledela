@@ -13,11 +13,19 @@ class AuthController:
     def do_login(self):
         
         form = LoginForm()
-
-        data = request.form
-
-
-        if form.validate_on_submit() is False:
+        
+        # validate form data
+        if not form.validate_on_submit():
+            print(1)
             return render_template("auth/login.html", form=LoginForm())    
         
-        user = User('Usuário', form.email.data, form.password.data)
+        # validate user
+        user = User
+
+        user.name = 'User'
+        user.email = form.email.data
+        user.password = form.password.data
+
+        print(user.email)
+
+        return 'ok'

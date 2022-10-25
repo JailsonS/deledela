@@ -3,13 +3,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(UserMixin):
 
-    def __init__(self, name, email, password) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
-        self.name = name
-        self.email = email
-        self.password = password
+        self.name = ''
+        self.email = ''
+        self.password = ''
         self.pwd_hash = ''
+
+        
 
     @property
     def password(self):
@@ -26,6 +28,14 @@ class User(UserMixin):
     def name(self):
         return self.name
 
+    @name.setter
+    def name(self, name):
+        self.name = name
+
     @property
     def email(self):
         return self.email
+
+    @email.setter
+    def email(self, email):
+        self.email = email
