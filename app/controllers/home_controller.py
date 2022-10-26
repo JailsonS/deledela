@@ -12,3 +12,6 @@ class HomeController:
         cliente_info_debito = cliente.getEstatisticasValorReceber()
 
         return render_template('pages/home.html', info_cliente=cliente_info_debito)
+
+    def send_notification(self):
+        pass
