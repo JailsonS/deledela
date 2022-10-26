@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container terminal-margin-large-top">
+  <form>
+    <div class="form-group">
+      <div class="search-box">
+        <input id="search" name="content_name" type="search" required minlength="3"
+          placeholder="Buscar conteúdo" />
+          <input type="submit" class="btn btn-default" value="BUSCAR">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<section class="container terminal-margin-large-top" id="contents">
+  <h1>Conteúdos em vídeos</h1>
+  <ol class="terminal-toc">
+    {% for content in contents %}
+    <li>
+      <a href="#">{{ content.name }}</a>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+
+
+
+{% endblock content %}

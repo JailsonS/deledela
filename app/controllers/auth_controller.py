@@ -26,6 +26,4 @@ class AuthController:
         user.email = form.email.data
         user.password = form.password.data
 
-        print(user.email)
-
-        return 'ok'
+        return redirect('home')  

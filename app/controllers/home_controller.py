@@ -5,7 +5,7 @@ from ..models.Cliente import Cliente
 
 class HomeController:
 
-    def index(self, view, request):
+    def index(self):
         
         cliente = Cliente
         
@@ -15,4 +15,4 @@ class HomeController:
 
         # enviar mensagem via wpp
 
-        return render_template('auth/login.html')
+        return render_template('pages/home.html')
