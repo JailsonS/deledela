@@ -9,10 +9,6 @@ class HomeController:
         
         cliente = Cliente
         
-        lista_clientes_devedores = cliente.getClientesDevedores()
-    
-        # iterar sobre a lista de clientes devedores
+        cliente_info_debito = cliente.getEstatisticasValorReceber()
 
-        # enviar mensagem via wpp
-
-        return render_template('pages/home.html')
+        return render_template('pages/home.html', info_cliente=cliente_info_debito)

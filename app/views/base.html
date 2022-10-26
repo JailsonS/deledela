@@ -10,12 +10,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='img/logo.png') }}" />
-
   <title> Dele&Dela {% block title %} Gerenciamento de Notificações {% endblock title%}</title>
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" />    
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" /> 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}" /> 
 
 </head>
 
@@ -29,7 +27,7 @@
 
   {% include "components/footer.html" %}
 
-  <script nomodule src="{{ url_for('static', filename='javascript/alpine.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/bootstrap.bundle.min.js') }}"></script>
   
   {% block scripts %} {% endblock %}
 </body>
