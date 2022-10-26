@@ -7,7 +7,7 @@ class HomeController:
 
     def index(self):
         
-        cliente = Cliente
+        cliente = Cliente()
         
         cliente_info_debito = cliente.getEstatisticasValorReceber()
 

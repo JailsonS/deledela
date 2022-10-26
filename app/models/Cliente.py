@@ -4,7 +4,17 @@ from sqlalchemy import text
 from datetime import date
 from app.models.ClienteDto import ClienteDto
 
+
 class Cliente:
+
+    def __init__(self) -> None:
+        pass
+
+    def real_br_money_mask(self, my_value):
+        a = '{:,.2f}'.format(float(my_value))
+        b = a.replace(',','v')
+        c = b.replace('.',',')
+        return c.replace('v','.')
 
     def getClientesDevedores():
 
@@ -38,7 +48,7 @@ class Cliente:
 
         return result
 
-    def getEstatisticasValorReceber():
+    def getEstatisticasValorReceber(self):
 
         cliente_dto = ClienteDto()
 
@@ -74,5 +84,11 @@ class Cliente:
             cliente_dto.debito_med_por_cliente = i[1]
             cliente_dto.valor_max_parcela = i[2]
             cliente_dto.qtd_med_parcelas_por_cliente = i[3]
+
+        cliente_dto.debito_total = self.real_br_money_mask(cliente_dto.debito_total)
+        cliente_dto.debito_med_por_cliente = self.real_br_money_mask(cliente_dto.debito_med_por_cliente)
+        cliente_dto.valor_max_parcela = self.real_br_money_mask(cliente_dto.valor_max_parcela)
+        cliente_dto.qtd_med_parcelas_por_cliente = round(cliente_dto.qtd_med_parcelas_por_cliente, 0)
+
 
         return cliente_dto

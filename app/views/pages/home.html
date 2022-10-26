@@ -19,7 +19,7 @@
 					é enviada automaticamente via Whatsapp.
 				</p>
 
-				<a href="#" class="btn btn-	 btn-lg">Enviar Notificações</a>
+				<a href="#" class="btn btn-danger btn-lg">Enviar Notificações</a>
 
 			</div>
 
@@ -34,23 +34,9 @@
 						</svg>
 					</div>
 
-					<h4 class="fw-semibold mb-0">Featured title</h4>
+					<h4 class="fw-semibold mb-0">R$ {{ info_cliente.debito_total }} </h4> Valor Total a Receber
 
-					<p class="text-muted">Paragraph of text beneath the heading to explain the heading.</p>
-
-				</div>
-
-				<div class="d-flex flex-column gap-2">
-
-					<div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-danger bg-gradient fs-4 rounded-3">
-						<svg class="bi" width="1em" height="1em">
-						  <use xlink:href="#gear-fill"></use>
-						</svg>
-					</div>
-
-					<h4 class="fw-semibold mb-0">Featured title</h4>
-
-					<p class="text-muted">Paragraph of text beneath the heading to explain the heading.</p>
+					<p class="text-muted">Corresponde a soma de todas as parcelas vencidas que ainda não foram pagas pelos clientes</p>
 
 				</div>
 
@@ -62,9 +48,9 @@
 						</svg>
 					</div>
 
-					<h4 class="fw-semibold mb-0">Featured title</h4>
+					<h4 class="fw-semibold mb-0">R$ {{ info_cliente.debito_med_por_cliente }} </h4> Valor Médio por Cliente
 
-					<p class="text-muted">Paragraph of text beneath the heading to explain the heading.</p>
+					<p class="text-muted">Média do valor que cada cliente precisa pagar referente às parcelas vencidas</p>
 
 				</div>
 
@@ -76,9 +62,24 @@
 						</svg>
 					</div>
 
-					<h4 class="fw-semibold mb-0">Featured title</h4>
+					<h4 class="fw-semibold mb-0">R$ {{ info_cliente.valor_max_parcela }} </h4> Valor da parcela mais alta
 
-					<p class="text-muted">Paragraph of text beneath the heading to explain the heading.</p>
+
+					<p class="text-muted">Corresponde ao valor da parcela mais alta que ainda não foi quitdada cujo o prazo está vencido</p>
+
+				</div>
+
+				<div class="d-flex flex-column gap-2">
+
+					<div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-danger bg-gradient fs-4 rounded-3">
+						<svg class="bi" width="1em" height="1em">
+						  <use xlink:href="#gear-fill"></use>
+						</svg>
+					</div>
+
+					<h4 class="fw-semibold mb-0">Nº {{ info_cliente.qtd_med_parcelas_por_cliente }} </h4> Nº médio de parcelas não quitadas
+
+					<p class="text-muted">Corresponde ao número médio de parcelas atrasadas por cliente</p>
 
 				</div>
 
