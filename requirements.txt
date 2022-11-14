@@ -6,3 +6,4 @@ flask-login
 Flask-WTF
 Werkzeug
 email_validator
+pywhatkit

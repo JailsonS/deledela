@@ -19,7 +19,7 @@
 					é enviada automaticamente via Whatsapp.
 				</p>
 
-				<a href="#" class="btn btn-danger btn-lg">Enviar Notificações</a>
+				<a href="{{ url_for('clientes.index') }}" class="btn btn-danger btn-lg">Enviar Notificações</a>
 
 			</div>
 
@@ -77,9 +77,9 @@
 						</svg>
 					</div>
 
-					<h4 class="fw-semibold mb-0">Nº {{ info_cliente.qtd_med_parcelas_por_cliente }} </h4> Nº médio de parcelas não quitadas
+					<h4 class="fw-semibold mb-0">Nº {{ info_cliente.n_clientes_debito }} </h4> Nº de clientes em débito
 
-					<p class="text-muted">Corresponde ao número médio de parcelas atrasadas por cliente</p>
+					<p class="text-muted">Corresponde ao número clientes com débito e com parcelas vencidas</p>
 
 				</div>
 

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="container px-4 py-5" id="contents">
+
+	<h2 class="pb-2 border-bottom">Detalhes dos Clientes</h2>
+
+	<div class="row row-cols-1 row-cols-md-1 align-items-md-center g-5 py-5">
+
+		<!--
+		<form class="d-flex" role="search" action="{{ url_for('sender.send_message') }}" method="POST">
+			{{ form.csrf_token }}
+			<input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+			{{ form.submit(class_="w-100 btn btn-lg btn-danger", _type="submit") }}
+		</form>
+		-->
+
+		<form class="d-flex" role="search">
+			<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+			<button class="btn btn-outline-danger" type="submit">Search</button>
+		</form>
+
+		{{ pagination.links }}
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Cliente</th>
+					<th scope="col">Telefone</th>
+					<th scope="col">Valor</th>
+					<th scope="col">Data de Vencimanto</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for cliente in clientes %}
+				<tr>
+					<th scope="row">{{ cliente[0] }}</th>
+					<td>{{ cliente[1] }}</td>
+					<td>{{ cliente[2] }}</td>
+					<td>{{ cliente[3] }}</td>
+					<td>{{ cliente[4] }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		{{ pagination.links }}
+	</div>
+
+
+</section>
+
+{% endblock content %}

@@ -16,7 +16,10 @@ class Cliente:
         c = b.replace('.',',')
         return c.replace('v','.')
 
-    def getClientesDevedores():
+    def getClientesDevedores(self):
+
+        list_clientes_dto = []
+        conn = engine.connect(close_with_result=True)
 
         sql = text(
             'SELECT ' +
@@ -31,11 +34,12 @@ class Cliente:
                 '(' +
                     'p.CODCOB = :codcob1 OR p.CODCOB = :codcob2 OR p.CODCOB = :codcob3 OR p.CODCOB = :codcob4 OR p.CODCOB = :codcob5' +
                 ') AND ' +
+            'pc.CODCLI <> 1 AND ' + 
             'p.VPAGO IS NULL AND ' + 
-            'TO_DATE(p.DTVENC) < :current_date'
+            'TO_DATE(p.DTVENC) < :current_date' 
         )
 
-        result = engine.execute(sql, {
+        result = conn.execute(sql, {
             'codcob1': 'CRLJ',
             'codcob2': 'COEX',
             'codcob3': 'REN1',
@@ -44,16 +48,29 @@ class Cliente:
             'current_date': date.today()
         })
 
-        result = list(result.fetchone())
+        #result = result.fetchall()
+
+        # for i in result:
+        #     cliente_dto = ClienteDto()
+# 
+        #     cliente_dto.cod_cliente = i[0]
+        #     cliente_dto.nome = i[1]
+        #     cliente_dto.tel = i[2]
+        #     cliente_dto.debito_parcela = i[3]
+        #     cliente_dto.debito_parcela_venc = i[4]
+# 
+        #     list_clientes_dto.append(cliente_dto)
 
         return result
 
     def getEstatisticasValorReceber(self):
 
         cliente_dto = ClienteDto()
+        conn = engine.connect(close_with_result=True)
 
         sql = text(
             'SELECT ' +
+                'COUNT (DISTINCT pc.CODCLI) AS N_CLIENTES, ' + 
                 'SUM(p.VALOR) AS DEBITO_TOTAL, ' + 
                 'SUM(p.VALOR) / COUNT ( DISTINCT p.CODCLI) AS MED_POR_CLI, ' + 
                 'MAX(p.VALOR) AS V_MAX, ' + 
@@ -64,11 +81,13 @@ class Cliente:
                 '(' +
                     'p.CODCOB = :codcob1 OR p.CODCOB = :codcob2 OR p.CODCOB = :codcob3 OR p.CODCOB = :codcob4 OR p.CODCOB = :codcob5' +
                 ') AND ' +
+            'pc.CODCLI <> 1 AND ' + 
             'p.VPAGO IS NULL AND ' + 
-            'TO_DATE(p.DTVENC) < :current_date'
+            'TO_DATE(p.DTVENC) < :current_date ' + 
+            'ORDER BY pc.CLIENTE'
         )
 
-        result = engine.execute(sql, {
+        result = conn.execute(sql, {
             'codcob1': 'CRLJ',
             'codcob2': 'COEX',
             'codcob3': 'REN1',
@@ -80,10 +99,11 @@ class Cliente:
         result = result.fetchall()
 
         for i in result:
-            cliente_dto.debito_total = i[0] 
-            cliente_dto.debito_med_por_cliente = i[1]
-            cliente_dto.valor_max_parcela = i[2]
-            cliente_dto.qtd_med_parcelas_por_cliente = i[3]
+            cliente_dto.n_clientes_debito = i[0] 
+            cliente_dto.debito_total = i[1] 
+            cliente_dto.debito_med_por_cliente = i[2]
+            cliente_dto.valor_max_parcela = i[3]
+            cliente_dto.qtd_med_parcelas_por_cliente = i[4]
 
         cliente_dto.debito_total = self.real_br_money_mask(cliente_dto.debito_total)
         cliente_dto.debito_med_por_cliente = self.real_br_money_mask(cliente_dto.debito_med_por_cliente)

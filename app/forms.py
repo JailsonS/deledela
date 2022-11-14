@@ -7,3 +7,7 @@ class LoginForm(FlaskForm):
     email = StringField("E-mail", validators=[DataRequired(), Email()])
     password = PasswordField("Senha", validators=[DataRequired()])
     submit = SubmitField("Entrar")
+
+
+class SendForm(FlaskForm):
+    submit = SubmitField("Entrar")
