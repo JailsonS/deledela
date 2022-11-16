@@ -19,5 +19,5 @@ engine = create_engine('oracle+cx_oracle://{username}:{password}@{hostname}:{por
 ), implicit_returning=False)
 
 
-logging.basicConfig()
-logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+#logging.basicConfig()
+#logging.getLogger("sqlalchemy.engin

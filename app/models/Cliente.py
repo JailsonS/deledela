@@ -2,6 +2,7 @@
 from ..database import engine
 from sqlalchemy import text
 from datetime import date
+from datetime import timedelta
 from app.models.ClienteDto import ClienteDto
 
 
@@ -112,3 +113,34 @@ class Cliente:
 
 
         return cliente_dto
+
+
+    def getInfoDevedor(self):
+        conn = engine.connect(close_with_result=True)
+
+        sql = text(
+            'SELECT DISTINCT ' +
+                'pc.CODCLI AS CODCLI, ' + 
+                'pc.CLIENTE AS CLIENTE, ' + 
+                'pc.TELCELENT AS TEL ' + 
+            'FROM DELEEDELA.PCPREST p ' +
+                'INNER JOIN DELEEDELA.PCCLIENT pc ON p.CODCLI = pc.CODCLI ' + 
+            'WHERE ' +
+                '(' +
+                    'p.CODCOB = :codcob1 OR p.CODCOB = :codcob2 OR p.CODCOB = :codcob3 OR p.CODCOB = :codcob4 OR p.CODCOB = :codcob5' +
+                ') AND ' +
+            'pc.CODCLI <> 1 AND ' + 
+            'p.VPAGO IS NULL AND ' + 
+            'TO_DATE(p.DTVENC) < :current_date' 
+        )
+
+        result = conn.execute(sql, {
+            'codcob1': 'CRLJ',
+            'codcob2': 'COEX',
+            'codcob3': 'REN1',
+            'codcob4': 'REN2',
+            'codcob5': '002',
+            'current_date': date.today() - timedelta(days=5)
+        })
+
+        return result
