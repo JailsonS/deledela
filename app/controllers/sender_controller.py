@@ -22,10 +22,10 @@ class SenderController:
             '81502481',
         ]
 
-        msg1 = 'Caro(a), cliente \n Esta mensagem é um lembrete para o pagamento de sua fatura'
-        msg2 = 'Caro(a), cliente \n Esta mensagem é um lembrete para o pagamento de sua fatura'
-        msg3 = 'Caro(a), cliente \n Esta mensagem é um lembrete para o pagamento de sua fatura'
-        msg4 = 'Caro(a), cliente \n Esta mensagem é um lembrete para o pagamento de sua fatura'
+        msg1 = 'Caro(a) Dele&Dela, cliente \n Esta mensagem é um lembrete para o pagamento de sua fatura'
+        msg2 = 'Caro(a) Dele&Dela, cliente \n Esta mensagem é um lembrete para o pagamento de sua fatura'
+        msg3 = 'Caro(a) Dele&Dela, cliente \n Esta mensagem é um lembrete para o pagamento de sua fatura'
+        msg4 = 'Caro(a) Dele&Dela, cliente \n Esta mensagem é um lembrete para o pagamento de sua fatura'
 
         list_of_templates = [
             msg1, msg2, msg3 , msg4
@@ -33,9 +33,7 @@ class SenderController:
 
 
         #cliente = Cliente()  
-        
         #clientes_devedores = cliente.getInfoDevedor()
-
         #for cliente in clientes_devedores:
         #    print(cliente[0])
 
@@ -57,10 +55,5 @@ class SenderController:
 
 
 
-
-        
-
-        # Same as above but Closes the Tab in 2 Seconds after Sending the Message
-        #
-
-        
+    def save_log(self, id_cliente: int, sent_message: str):
+        pass
