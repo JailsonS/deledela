@@ -122,7 +122,7 @@ class Cliente:
             'SELECT DISTINCT ' +
                 'pc.CODCLI AS CODCLI, ' + 
                 'pc.CLIENTE AS CLIENTE, ' + 
-                'pc.TELCELENT AS TEL ' + 
+                'pc.TELCOB AS TEL ' + 
             'FROM DELEEDELA.PCPREST p ' +
                 'INNER JOIN DELEEDELA.PCCLIENT pc ON p.CODCLI = pc.CODCLI ' + 
             'WHERE ' +
@@ -131,7 +131,7 @@ class Cliente:
                 ') AND ' +
             'pc.CODCLI <> 1 AND ' + 
             'p.VPAGO IS NULL AND ' + 
-            'TO_DATE(p.DTVENC) < :current_date' 
+            ':current_date > TO_DATE(p.DTVENC) ' 
         )
 
         result = conn.execute(sql, {
@@ -140,7 +140,7 @@ class Cliente:
             'codcob3': 'REN1',
             'codcob4': 'REN2',
             'codcob5': '002',
-            'current_date': date.today() - timedelta(days=5)
+            'current_date': date.today() + timedelta(days=15)
         })
 
         return result
