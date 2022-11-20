@@ -13,7 +13,6 @@ from ..models.Cliente import Cliente
 class SenderController:
 
     def __init__(self) -> None:
-
         self.limit_msg_by_day = 500
         self.list_numbers = []
         self.list_ids = []
@@ -30,25 +29,10 @@ class SenderController:
         cliente = Cliente()  
         clientes_devedores = cliente.getInfoDevedor()
 
-        # condition, it avoids NUll values
-        gen = (cliente for cliente in clientes_devedores if cliente[2] is not None)
-    
-        # load list of formatted numbers
-        for cliente in gen:
-            phone = cliente[2].replace(' ', '').replace('-', '')
-            if len(phone) == 9:
-                phone = '91' + phone
-            if len(phone) == 11:
-                self.list_numbers.append(phone)
-                self.list_ids.append(cliente[0])
-                self.list_names.append(cliente[1])
-        
-        # transform to dataframe
-        all_info = pd.DataFrame({
-            'id_cliente': self.list_ids, 
-            'nome_cliente': self.list_names,
-            'contato': self.list_numbers
-        })
+
+        # format info
+        all_info = self.get_all_info_formatted(clientes_devedores)
+
 
         # filter info
         log_file_remove = log_file.query('mes_envio == ' + datetime.now().strftime('%m'))
@@ -79,8 +63,8 @@ class SenderController:
             log = pd.concat([log_file, target_df])
             log = log.set_index('id_cliente')
 
-            log.to_csv('log_notificacoes.csv')
-            
+            log.to_csv('log_notificacoes.csv')          
+
 
     def send(self, list_numbers):
 
@@ -103,3 +87,28 @@ class SenderController:
                 list_of_templates[random.randrange(0,3)], 
                 now.hour, 
                 now.minute)
+
+
+    def get_all_info_formatted(self, clientes_devedores) -> pd.DataFrame:
+
+        # condition, it avoids NUll values
+        gen = (cliente for cliente in clientes_devedores if cliente[2] is not None)
+
+        # load list of formatted numbers
+        for cliente in gen:
+            phone = cliente[2].replace(' ', '').replace('-', '')
+            if len(phone) == 9:
+                phone = '91' + phone
+            if len(phone) == 11:
+                self.list_numbers.append(phone)
+                self.list_ids.append(cliente[0])
+                self.list_names.append(cliente[1])
+        
+        # transform to dataframe
+        all_info = pd.DataFrame({
+            'id_cliente': self.list_ids, 
+            'nome_cliente': self.list_names,
+            'contato': self.list_numbers
+        })
+
+        return all_info
