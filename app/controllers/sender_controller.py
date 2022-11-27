@@ -39,7 +39,7 @@ class SenderController:
         info_filtered = all_info[~all_info['id_cliente'].isin(log_file_remove['id_cliente'].values)]
 
         # send message 
-        # self.send(info_filtered)
+        self.send(info_filtered)
 
         # save log
         self.save_log(target_df=info_filtered, log_file=log_file)
@@ -68,17 +68,17 @@ class SenderController:
 
     def send(self, df: pd.DataFrame):
 
-        msg1 = 'Dele&Dela\n Bom dia [[NOME COMPLETO DO CLIENTE]], tudo bem ?\n' \
+        msg1 = 'Dele&Dela\n Bom dia {}, tudo bem ?\n' \
             'Informamos que a parcela do seu crediário consta vencida a 7 dias. ' \
             'Efetue a regularização o mais breve possível. Pagando em dia você evita pagar juros, esperamos por você. ' \
-            'Qualquer dúvida entre em contato com o financeiro, número 91 999600861'\
+            'Qualquer dúvida entre em contato com o financeiro, número 91 999600861.\n'\
             'Obs.: Caso já tenha efetuado o pagamento desconsidere a mensagem.'\
             ' Tenha uma excelente semana!'
 
-        msg2 = 'Dele&Dela\n Bom dia [[NOME COMPLETO DO CLIENTE]], tudo bem ?\n' \
+        msg2 = 'Dele&Dela\n Bom dia {}, tudo bem ?\n' \
             'Informamos que a parcela do seu crediário consta vencida a 7 dias. ' \
             'Efetue a regularização o mais breve possível. Pagando em dia você evita pagar juros, esperamos por você. ' \
-            'Qualquer dúvida entre em contato com o financeiro, número 91 999600861'\
+            'Qualquer dúvida entre em contato com o financeiro, número 91 999600861.\n'\
             'Obs.: Caso já tenha efetuado o pagamento desconsidere a mensagem.'\
             ' Tenha uma excelente semana!'
 
@@ -93,7 +93,7 @@ class SenderController:
             number_format = '+550{}'.format('91981502481')
             pywhatkit.sendwhatmsg_instantly(
                 number_format, 
-                list_of_templates[random.randrange(0,1)], 
+                list_of_templates[random.randrange(0,1)].format(row['nome_cliente']), 
                 now.hour, 
                 now.minute)
 
