@@ -39,7 +39,7 @@ class SenderController:
         info_filtered = all_info[~all_info['id_cliente'].isin(log_file_remove['id_cliente'].values)]
 
         # send message 
-        # self.send(info_filtered['contato'].values)
+        # self.send(info_filtered)
 
         # save log
         self.save_log(target_df=info_filtered, log_file=log_file)
@@ -66,27 +66,39 @@ class SenderController:
             log.to_csv('log_notificacoes.csv')          
 
 
-    def send(self, list_numbers):
+    def send(self, df: pd.DataFrame):
 
-        msg1 = 'Caro(a) cliente Dele&Dela, \n Esta mensagem é um lembrete para o pagamento de sua fatura'
-        msg2 = 'Caro(a) cliente Dele&Dela, \n Estamos enviando um lembrete para o pagamento de sua fatura'
-        msg3 = 'Caro(a) cliente Dele&Dela, \n Não esqueça de realizar o pagamento da sua fatura'
-        msg4 = 'Caro(a) cliente Dele&Dela, \n Esta mensagem é um lembrete para o pagamento de sua fatura'
+        msg1 = 'Dele&Dela\n Bom dia [[NOME COMPLETO DO CLIENTE]], tudo bem ?\n' \
+            'Informamos que a parcela do seu crediário consta vencida a 7 dias. ' \
+            'Efetue a regularização o mais breve possível. Pagando em dia você evita pagar juros, esperamos por você. ' \
+            'Qualquer dúvida entre em contato com o financeiro, número 91 999600861'\
+            'Obs.: Caso já tenha efetuado o pagamento desconsidere a mensagem.'\
+            ' Tenha uma excelente semana!'
+
+        msg2 = 'Dele&Dela\n Bom dia [[NOME COMPLETO DO CLIENTE]], tudo bem ?\n' \
+            'Informamos que a parcela do seu crediário consta vencida a 7 dias. ' \
+            'Efetue a regularização o mais breve possível. Pagando em dia você evita pagar juros, esperamos por você. ' \
+            'Qualquer dúvida entre em contato com o financeiro, número 91 999600861'\
+            'Obs.: Caso já tenha efetuado o pagamento desconsidere a mensagem.'\
+            ' Tenha uma excelente semana!'
 
         list_of_templates = [
-            msg1, msg2, msg3 , msg4
+            msg1, msg2
         ]
 
-        for number in list_numbers[:self.limit_msg_by_day]:
-
+        for index, row in df.iloc[:self.limit_msg_by_day].iterrows():
             now = datetime.now() + timedelta(seconds=15)
 
-            number_format = '+550{}'.format(number)
+            # number_format = '+550{}'.format(row['contato'])
+            number_format = '+550{}'.format('91981502481')
             pywhatkit.sendwhatmsg_instantly(
                 number_format, 
-                list_of_templates[random.randrange(0,3)], 
+                list_of_templates[random.randrange(0,1)], 
                 now.hour, 
                 now.minute)
+
+
+
 
 
     def get_all_info_formatted(self, clientes_devedores) -> pd.DataFrame:
