@@ -10,3 +10,5 @@ pywhatkit==5.4
 SQLAlchemy==1.4.41
 Werkzeug==2.2.2
 WTForms==3.0.1
+Flask-Session==0.4.0
+email-validator
