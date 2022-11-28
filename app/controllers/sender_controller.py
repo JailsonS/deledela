@@ -89,8 +89,8 @@ class SenderController:
         for index, row in df.iloc[:self.limit_msg_by_day].iterrows():
             now = datetime.now() + timedelta(seconds=15)
 
-            # number_format = '+550{}'.format(row['contato'])
-            number_format = '+550{}'.format('91981502481')
+            number_format = '+550{}'.format(row['contato'])
+            # number_format = '+550{}'.format('91981502481')
             pywhatkit.sendwhatmsg_instantly(
                 number_format, 
                 list_of_templates[random.randrange(0,1)].format(row['nome_cliente']), 
