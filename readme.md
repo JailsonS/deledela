@@ -36,7 +36,10 @@ Acessar localhost:5000/home
 
 ### Orientações ao usuário
 
-Ao acessar a url `localhost:5000/home`o usuário irá visualizar um painel com indicadores 
+<p>Ao acessar a url `localhost:5000/home`o usuário irá visualizar um painel com indicadores 
 a respeito dos clientes e suas respectivas parcelas. O usuário precisará clicar no botão `enviar notificações` e a 
 aplicação abrirá um navegador para envio de mensagens. Para isso, será necessário que o número habilitado para envio 
-esteja logado no whatsapp web. Assim o sistema reconhecerá o número e irá iniciar o envio.
+esteja logado no whatsapp web. Assim o sistema reconhecerá o número e irá iniciar o envio.</p>
+<p>
+    As notificações de envio de mensagens estão programadas para serem enviadas de 15 em 15s, com o limite de 500 mensagens por dia para evitar bloqueio do número. Ao enviar uma mensagem, as informações do envio são gravadas em um arquivo de log onde é possível identificar o cliente, a data e máquina de onde partiu o envio. O sistema possui uma regra de que não é possível enviar mais de 1 notificação de cobrança para o mesmo cliente no mesmo mês, isso também é outra forma de prevenção contra bloqueio do número de celular.
+</p>
