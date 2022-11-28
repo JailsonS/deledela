@@ -1,8 +1,12 @@
-### Instalar Oracle Client
+### Requisitos
 
-- cliente 21_7
+- python 3.9^
 
-### Para Ubuntu
+## Habilitar ambiente virtual env
+`python -m venv ./venv `
 
-- criar dir /opt/oracle/instantclient_x_x
 
+## Executar a aplicação
+`flask run`
+
+Access localhost:5000/home
