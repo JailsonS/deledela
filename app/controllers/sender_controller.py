@@ -34,7 +34,7 @@ class SenderController:
 
         # format info
         all_info = self.get_all_info_formatted(clientes_devedores)
-
+        
         month = datetime.now().strftime('%m').replace('0', '')
 
         # filter info
