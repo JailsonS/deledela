@@ -131,7 +131,7 @@ class Cliente:
                 ') AND ' +
             'pc.CODCLI <> 1 AND ' + 
             'p.VPAGO IS NULL AND ' + 
-            ':current_date > TO_DATE(p.DTVENC) ' 
+            ':current_date > TO_DATE(p.DTVENC)'
         )
 
         result = conn.execute(sql, {

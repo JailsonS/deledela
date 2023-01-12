@@ -23,20 +23,24 @@ class SenderController:
 
     def send_message(self):      
 
+        # se quiser limitar o número de envios, modifique a var abaixo
+        limit_clientes = 1
+
         log_file = pd.read_csv('log_notificacoes.csv')
 
 
         cliente = Cliente()  
         clientes_devedores = cliente.getInfoDevedor()
 
-
         # format info
         all_info = self.get_all_info_formatted(clientes_devedores)
 
+        month = datetime.now().strftime('%m').replace('0', '')
 
         # filter info
-        log_file_remove = log_file.query('mes_envio == ' + datetime.now().strftime('%m'))
-        info_filtered = all_info[~all_info['id_cliente'].isin(log_file_remove['id_cliente'].values)]
+        log_file_remove = log_file.query('mes_envio == ' + month)
+        info_filtered = all_info[~all_info['id_cliente'].isin(log_file_remove['id_cliente'].values)][:limit_clientes]
+
 
         # send message 
         self.send(info_filtered)
