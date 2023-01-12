@@ -37,7 +37,7 @@ class Cliente:
                 ') AND ' +
             'pc.CODCLI <> 1 AND ' + 
             'p.VPAGO IS NULL AND ' + 
-            'TO_DATE(p.DTVENC) < :current_date' 
+            ':current_date > TO_DATE(p.DTVENC)' 
         )
 
         result = conn.execute(sql, {
@@ -46,7 +46,7 @@ class Cliente:
             'codcob3': 'REN1',
             'codcob4': 'REN2',
             'codcob5': '002',
-            'current_date': date.today()
+            'current_date': date.today() - timedelta(days=7)
         })
 
         #result = result.fetchall()
@@ -84,7 +84,7 @@ class Cliente:
                 ') AND ' +
             'pc.CODCLI <> 1 AND ' + 
             'p.VPAGO IS NULL AND ' + 
-            'TO_DATE(p.DTVENC) < :current_date ' + 
+            ':current_date > TO_DATE(p.DTVENC) ' + 
             'ORDER BY pc.CLIENTE'
         )
 
@@ -94,7 +94,7 @@ class Cliente:
             'codcob3': 'REN1',
             'codcob4': 'REN2',
             'codcob5': '002',
-            'current_date': date.today()
+            'current_date': date.today() - timedelta(days=7)
         }) 
 
         result = result.fetchall()
@@ -140,7 +140,7 @@ class Cliente:
             'codcob3': 'REN1',
             'codcob4': 'REN2',
             'codcob5': '002',
-            'current_date': date.today() + timedelta(days=15)
+            'current_date': date.today() - timedelta(days=7)
         })
 
         return result
