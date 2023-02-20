@@ -17,6 +17,7 @@ class SenderController:
         self.list_numbers = []
         self.list_ids = []
         self.list_names = []
+        self.list_type_message = []
         self.ipadress = socket.gethostbyname(socket.gethostname())  
         
 
@@ -26,14 +27,23 @@ class SenderController:
         # se quiser limitar o número de envios, modifique a var abaixo
         limit_clientes = 1
 
+        print('oi')
+
         log_file = pd.read_csv('log_notificacoes.csv')
 
 
         cliente = Cliente()  
+
+        
+
+
         clientes_devedores = cliente.getInfoDevedor()
 
+        
         # format info
         all_info = self.get_all_info_formatted(clientes_devedores)
+
+        
         
         month = datetime.now().strftime('%m').replace('0', '')
 
@@ -72,32 +82,29 @@ class SenderController:
 
     def send(self, df: pd.DataFrame):
 
-        msg1 = 'Dele&Dela\n Bom dia {}, tudo bem ?\n' \
-            'Informamos que a parcela do seu crediário consta vencida a 7 dias. ' \
+        msg_cobranca = 'Dele&Dela\n Bom dia {}, tudo bem ?\n' \
+            'Informamos que a parcela do seu crediário consta vencida a 3 dias. ' \
             'Efetue a regularização o mais breve possível. Pagando em dia você evita pagar juros, esperamos por você. ' \
             'Qualquer dúvida entre em contato com o financeiro, número 91 999600861.\n'\
             'Obs.: Caso já tenha efetuado o pagamento desconsidere a mensagem.'\
             ' Tenha uma excelente semana!'
 
-        msg2 = 'Dele&Dela\n Bom dia {}, tudo bem ?\n' \
-            'Informamos que a parcela do seu crediário consta vencida a 7 dias. ' \
-            'Efetue a regularização o mais breve possível. Pagando em dia você evita pagar juros, esperamos por você. ' \
+        msg_aviso = 'Dele&Dela\n Bom dia {}, tudo bem ?\n' \
+            'A data do vencimento da parcela do seu crediário está se aproximando! Pagando em dia, você evita multas por atraso.”. ' \
             'Qualquer dúvida entre em contato com o financeiro, número 91 999600861.\n'\
-            'Obs.: Caso já tenha efetuado o pagamento desconsidere a mensagem.'\
             ' Tenha uma excelente semana!'
-
-        list_of_templates = [
-            msg1, msg2
-        ]
 
         for index, row in df.iloc[:self.limit_msg_by_day].iterrows():
             now = datetime.now() + timedelta(seconds=15)
 
             number_format = '+550{}'.format(row['contato'])
-            # number_format = '+550{}'.format('91981502481')
+            #number_format = '+550{}'.format('91981502481')
+
+            notificacao = msg_cobranca if row['tipo_mensagem'] == 'cobranca' else msg_aviso
+
             pywhatkit.sendwhatmsg_instantly(
                 number_format, 
-                list_of_templates[random.randrange(0,1)].format(row['nome_cliente']), 
+                notificacao.format(row['nome_cliente']), 
                 now.hour, 
                 now.minute)
 
@@ -119,12 +126,14 @@ class SenderController:
                 self.list_numbers.append(phone)
                 self.list_ids.append(cliente[0])
                 self.list_names.append(cliente[1])
+                self.list_type_message.append(cliente[3])
         
         # transform to dataframe
         all_info = pd.DataFrame({
             'id_cliente': self.list_ids, 
             'nome_cliente': self.list_names,
-            'contato': self.list_numbers
+            'contato': self.list_numbers,
+            'tipo_mensagem': self.list_type_message
         })
 
         return all_info

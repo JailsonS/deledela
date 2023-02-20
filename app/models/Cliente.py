@@ -122,7 +122,8 @@ class Cliente:
             'SELECT DISTINCT ' +
                 'pc.CODCLI AS CODCLI, ' + 
                 'pc.CLIENTE AS CLIENTE, ' + 
-                'pc.TELCOB AS TEL ' + 
+                'pc.TELCOB AS TEL, ' +
+                'CASE WHEN (TO_DATE(p.DTVENC) >= :current_date_plus_3 AND TO_DATE(p.DTVENC) <= :current_date_plus_4) THEN :aviso ELSE :cobranca END AS TIPO ' +  
             'FROM DELEEDELA.PCPREST p ' +
                 'INNER JOIN DELEEDELA.PCCLIENT pc ON p.CODCLI = pc.CODCLI ' + 
             'WHERE ' +
@@ -130,17 +131,23 @@ class Cliente:
                     'p.CODCOB = :codcob1 OR p.CODCOB = :codcob2 OR p.CODCOB = :codcob3 OR p.CODCOB = :codcob4 OR p.CODCOB = :codcob5' +
                 ') AND ' +
             'pc.CODCLI <> 1 AND ' + 
-            'p.VPAGO IS NULL AND ' + 
-            ':current_date > TO_DATE(p.DTVENC)'
+            'p.VPAGO IS NULL AND ' +
+            '(' + 
+                '(TO_DATE(p.DTVENC) >= :current_date_plus_3 AND TO_DATE(p.DTVENC) <= :current_date_plus_4) OR ' +
+                '(:current_date > TO_DATE(p.DTVENC))' +
+            ')'
         )
 
         result = conn.execute(sql, {
+            'aviso': 'aviso', 'cobranca': 'cobranca',
             'codcob1': 'CRLJ',
             'codcob2': 'COEX',
             'codcob3': 'REN1',
             'codcob4': 'REN2',
             'codcob5': '002',
-            'current_date': date.today() - timedelta(days=7)
+            'current_date': date.today() - timedelta(days=3),
+            'current_date_plus_3': date.today() + timedelta(days=3),
+            'current_date_plus_4': date.today() + timedelta(days=4),
         })
 
         return result
