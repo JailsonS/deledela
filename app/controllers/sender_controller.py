@@ -13,7 +13,9 @@ from ..models.Cliente import Cliente
 class SenderController:
 
     def __init__(self) -> None:
-        self.limit_msg_by_day = 500
+        self.limit_msg_by_day = 5000
+        self.limit_msg_cobranca = 1 # para alterar o n de mensagens de cobranca 
+        self.limit_msg_notificacao = 1 # para alterar o n de mensagens de notificao
         self.list_numbers = []
         self.list_ids = []
         self.list_names = []
@@ -24,36 +26,33 @@ class SenderController:
 
     def send_message(self):      
 
-        # se quiser limitar o número de envios, modifique a var abaixo
-        limit_clientes = 1
-
-        print('oi')
-
         log_file = pd.read_csv('log_notificacoes.csv')
-
 
         cliente = Cliente()  
 
-        
-
-
         clientes_devedores = cliente.getInfoDevedor()
-
-        
+      
         # format info
         all_info = self.get_all_info_formatted(clientes_devedores)
-
-        
         
         month = datetime.now().strftime('%m').replace('0', '')
 
         # filter info
         log_file_remove = log_file.query('mes_envio == ' + month)
-        info_filtered = all_info[~all_info['id_cliente'].isin(log_file_remove['id_cliente'].values)][:limit_clientes]
+        info_filtered = all_info[~all_info['id_cliente'].isin(log_file_remove['id_cliente'].values)]
 
+        # filter by limit msg
+        info_cobranca = info_filtered.query('tipo_mensagem == "cobranca"')\
+            .loc[:self.limit_msg_cobranca]
+
+        info_notificacao = info_filtered.query('tipo_mensagem == "aviso"')\
+            .loc[:self.limit_msg_notificacao]
+        
+        all_info = pd.concat([info_cobranca, info_notificacao])
+        
 
         # send message 
-        self.send(info_filtered)
+        self.send(all_info)
 
         # save log
         self.save_log(target_df=info_filtered, log_file=log_file)
@@ -107,9 +106,6 @@ class SenderController:
                 notificacao.format(row['nome_cliente']), 
                 now.hour, 
                 now.minute)
-
-
-
 
 
     def get_all_info_formatted(self, clientes_devedores) -> pd.DataFrame:
