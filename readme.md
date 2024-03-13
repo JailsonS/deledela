@@ -1,3 +1,5 @@
+This web application accesses an oracle client database and triggers warnings to all clients with debits.
+
 ### Requirements
 
 - python 3.9^
